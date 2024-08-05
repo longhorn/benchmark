@@ -3,6 +3,14 @@
 set -e
 
 CURRENT_DIR="$(dirname "$(readlink -f "$0")")"
+CONFIG_DIR="/etc/fio-custom-config"
+
+if [ -d "$CONFIG_DIR" ]; then
+    echo "Use fio custom config in: $CONFIG_DIR"
+else
+    CONFIG_DIR="$CURRENT_DIR"
+    echo "No custom config found, CONFIG_DIR is now set to default: $CONFIG_DIR"
+fi
 
 TEST_FILE=$1
 
@@ -150,19 +158,19 @@ keep_running="true"
 while [ "$keep_running" == "true" ]; do
     if [ -n "$IOPS_FIO" ]; then
         echo Benchmarking $IOPS_FIO into $OUTPUT_IOPS
-        fio $CURRENT_DIR/$IOPS_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
+        fio $CONFIG_DIR/$IOPS_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
           --output-format=json --output=$TEMP $rate_iops_flag $rate_flag
         mv $TEMP $OUTPUT_IOPS
     fi
     if [ -n "$BW_FIO" ]; then
         echo Benchmarking $BW_FIO into $OUTPUT_BW
-        fio $CURRENT_DIR/$BW_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
+        fio $CONFIG_DIR/$BW_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
           --output-format=json --output=$TEMP $rate_iops_flag $rate_flag
         mv $TEMP $OUTPUT_BW
     fi
     if [ -n "$LAT_FIO" ]; then
         echo Benchmarking $LAT_FIO into $OUTPUT_LAT
-        fio $CURRENT_DIR/$LAT_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
+        fio $CONFIG_DIR/$LAT_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
           --output-format=json --output=$TEMP $rate_iops_flag $rate_flag
         mv $TEMP $OUTPUT_LAT
     fi

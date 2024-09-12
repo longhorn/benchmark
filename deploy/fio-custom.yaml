@@ -89,57 +89,57 @@ data:
   bandwidth-quick.fio: |
     [rand-read-bw]
     readwrite=randread
-    include bw-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [rand-write-bw]
     readwrite=randwrite
-    include bw-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [seq-read-bw]
     readwrite=read
-    include bw-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [seq-write-bw]
     readwrite=write
-    include bw-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/quick-include.fio
   bandwidth-random-read.fio: |
     [rand-read-bw]
     readwrite=randread
-    include bw-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
   bandwidth-random-write.fio: |
     [rand-write-bw]
     readwrite=randwrite
-    include bw-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
   bandwidth-sequential-read.fio: |
     [seq-read-bw]
     readwrite=read
-    include bw-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
   bandwidth-sequential-write.fio: |
     [seq-write-bw]
     readwrite=write
-    include bw-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
   bandwidth.fio: |
     [rand-read-bw]
     readwrite=randread
-    include bw-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [rand-write-bw]
     readwrite=randwrite
-    include bw-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [seq-read-bw]
     readwrite=read
-    include bw-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [seq-write-bw]
     readwrite=write
-    include bw-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
   bw-include.fio: |
     bs=128k
     iodepth=64
@@ -158,114 +158,114 @@ data:
   iops-quick.fio: |
     [rand-read-iops]
     readwrite=randread
-    include iops-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [rand-write-iops]
     readwrite=randwrite
-    include iops-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [seq-read-iops]
     readwrite=read
-    include iops-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [seq-write-iops]
     readwrite=write
-    include iops-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/quick-include.fio
   iops-random-read.fio: |
     [rand-read-iops]
     readwrite=randread
-    include iops-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
   iops-random-write.fio: |
     [rand-write-iops]
     readwrite=randwrite
-    include iops-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
   iops-sequential-read.fio: |
     [seq-read-iops]
     readwrite=read
-    include iops-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
   iops-sequential-write.fio: |
     [seq-write-iops]
     readwrite=write
-    include iops-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
   iops.fio: |
     [rand-read-iops]
     readwrite=randread
-    include iops-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [rand-write-iops]
     readwrite=randwrite
-    include iops-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [seq-read-iops]
     readwrite=read
-    include iops-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [seq-write-iops]
     readwrite=write
-    include iops-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
   lat-include.fio: |
     bs=4k
     iodepth=1
   latency-quick.fio: |
     [rand-read-lat]
     readwrite=randread
-    include lat-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [rand-write-lat]
     readwrite=randwrite
-    include lat-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [seq-read-lat]
     readwrite=read
-    include lat-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/quick-include.fio
     [seq-write-lat]
     readwrite=write
-    include lat-include.fio
-    include quick-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/quick-include.fio
   latency-random-read.fio: |
     [rand-read-lat]
     readwrite=randread
-    include lat-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
   latency-random-write.fio: |
     [rand-write-lat]
     readwrite=randwrite
-    include lat-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
   latency-sequential-read.fio: |
     [seq-read-lat]
     readwrite=read
-    include lat-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
   latency-sequential-write.fio: |
     [seq-write-lat]
     readwrite=write
-    include lat-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
   latency.fio: |
     [rand-read-lat]
     readwrite=randread
-    include lat-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [rand-write-lat]
     readwrite=randwrite
-    include lat-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [seq-read-lat]
     readwrite=read
-    include lat-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
     [seq-write-lat]
     readwrite=write
-    include lat-include.fio
-    include common-include.fio
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
   quick-include.fio: |
     stonewall=1
     randrepeat=0

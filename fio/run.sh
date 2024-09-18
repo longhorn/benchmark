@@ -4,39 +4,37 @@ set -e
 
 CURRENT_DIR="$(dirname "$(readlink -f "$0")")"
 
-TEST_FILE=$1
-
 # cmdline overrides the environment variable
 if [ -z "$TEST_FILE" ]; then
-	TEST_FILE=$FILE_NAME
+    TEST_FILE=$FILE_NAME
 fi
 
 if [ -z "$TEST_FILE" ]; then
-        echo Require test file name
-        exit 1
+    echo Require test file name
+    exit 1
 fi
 
 if [ x"$CPU_IDLE_PROF" = x"enabled" ]; then
-	IDLE_PROF="--idle-prof=percpu"
+    IDLE_PROF="--idle-prof=percpu"
 fi
 
 echo TEST_FILE: $TEST_FILE
 
 TEST_OUTPUT=$2
 if [ -z "$TEST_OUTPUT" ]; then
-       TEST_OUTPUT=$OUTPUT
+    TEST_OUTPUT=$OUTPUT
 fi
 if [ -z $TEST_OUTPUT ]; then
-	TEST_OUTPUT="./test_device"
+    TEST_OUTPUT="./test_device"
 fi
 echo TEST_OUTPUT_PREFIX: $TEST_OUTPUT
 
 TEST_SIZE=$3
 if [ -z "$TEST_SIZE" ]; then
-       TEST_SIZE=$SIZE
+    TEST_SIZE=$SIZE
 fi
 if [ -z "$TEST_SIZE" ]; then
-       TEST_SIZE="10g"
+    TEST_SIZE="10g"
 fi
 echo TEST_SIZE: $TEST_SIZE
 
@@ -50,82 +48,81 @@ fi
 echo MODE: $MODE
 
 case $MODE in
+    "quick")
+        IOPS_FIO="iops-quick.fio"
+        BW_FIO="bandwidth-quick.fio"
+        LAT_FIO="latency-quick.fio"
+        ;;
+    "random-read-iops")
+        IOPS_FIO="iops-random-read.fio"
+        BW_FIO=""
+        LAT_FIO=""
+        ;;
+    "sequential-read-iops")
+        IOPS_FIO="iops-sequential-read.fio"
+        BW_FIO=""
+        LAT_FIO=""
+        ;;
+    "random-read-bandwidth")
+        IOPS_FIO=""
+        BW_FIO="bandwidth-random-read.fio"
+        LAT_FIO=""
+        ;;
+    "sequential-read-bandwidth")
+        IOPS_FIO=""
+        BW_FIO="bandwidth-sequential-read.fio"
+        LAT_FIO=""
+        ;;
+    "random-read-latency")
+        IOPS_FIO=""
+        BW_FIO="latency-random-read.fio"
+        LAT_FIO=""
+        ;;
+    "sequential-read-latency")
+        IOPS_FIO=""
+        BW_FIO="latency-sequential-read.fio"
+        LAT_FIO=""
+        ;;
+    "random-write-iops")
+        IOPS_FIO="iops-random-write.fio"
+        BW_FIO=""
+        LAT_FIO=""
+        ;;
+    "sequential-write-iops")
+        IOPS_FIO="iops-sequential-write.fio"
+        BW_FIO=""
+        LAT_FIO=""
+        ;;
+    "random-write-bandwidth")
+        IOPS_FIO="bandwidth-random-write.fio"
+        BW_FIO=""
+        LAT_FIO=""
+        ;;
+    "sequential-write-bandwidth")
+        IOPS_FIO="bandwidth-sequential-write.fio"
+        BW_FIO=""
+        LAT_FIO=""
+        ;;
+    "random-write-latency")
+        IOPS_FIO=""
+        BW_FIO="latency-random-write.fio"
+        LAT_FIO=""
+        ;;
+    "sequential-write-latency")
+        IOPS_FIO=""
+        BW_FIO="latency-sequential-write.fio"
+        LAT_FIO=""
+        ;;
+    "full" | "")
+        IOPS_FIO="iops.fio"
+        BW_FIO="bandwidth.fio"
+        LAT_FIO="latency.fio"
+        ;;
 
-  "quick")
-    IOPS_FIO="iops-quick.fio"
-    BW_FIO="bandwidth-quick.fio"
-    LAT_FIO="latency-quick.fio"
-    ;;
-  "random-read-iops")
-    IOPS_FIO="iops-random-read.fio"
-    BW_FIO=""
-    LAT_FIO=""
-    ;;
-  "sequential-read-iops")
-    IOPS_FIO="iops-sequential-read.fio"
-    BW_FIO=""
-    LAT_FIO=""
-    ;;
-  "random-read-bandwidth")
-    IOPS_FIO=""
-    BW_FIO="bandwidth-random-read.fio"
-    LAT_FIO=""
-    ;;
-  "sequential-read-bandwidth")
-    IOPS_FIO=""
-    BW_FIO="bandwidth-sequential-read.fio"
-    LAT_FIO=""
-    ;;
-  "random-read-latency")
-    IOPS_FIO=""
-    BW_FIO="latency-random-read.fio"
-    LAT_FIO=""
-    ;;
-  "sequential-read-latency")
-    IOPS_FIO=""
-    BW_FIO="latency-sequential-read.fio"
-    LAT_FIO=""
-    ;;
-  "random-write-iops")
-    IOPS_FIO="iops-random-write.fio"
-    BW_FIO=""
-    LAT_FIO=""
-    ;;
-  "sequential-write-iops")
-    IOPS_FIO="iops-sequential-write.fio"
-    BW_FIO=""
-    LAT_FIO=""
-    ;;
-  "random-write-bandwidth")
-    IOPS_FIO="bandwidth-random-write.fio"
-    BW_FIO=""
-    LAT_FIO=""
-    ;;
-  "sequential-write-bandwidth")
-    IOPS_FIO="bandwidth-sequential-write.fio"
-    BW_FIO=""
-    LAT_FIO=""
-    ;;
-  "random-write-latency")
-    IOPS_FIO=""
-    BW_FIO="latency-random-write.fio"
-    LAT_FIO=""
-    ;;
-  "sequential-write-latency")
-    IOPS_FIO=""
-    BW_FIO="latency-sequential-write.fio"
-    LAT_FIO=""
-    ;;
-  "full" | "")
-    IOPS_FIO="iops.fio"
-    BW_FIO="bandwidth.fio"
-    LAT_FIO="latency.fio"
-    ;;
-
-  *)
-    echo "ERROR: unknown mode"
-    exit 1
-    ;;
+    *)
+        echo "ERROR: unknown mode"
+        exit 1
+        ;;
 esac
 
 if [ -n "$RATE_IOPS" ]; then
@@ -142,30 +139,39 @@ fi
 
 
 TEMP=./temp
-OUTPUT_IOPS=${TEST_OUTPUT}-iops.json
-OUTPUT_BW=${TEST_OUTPUT}-bandwidth.json
-OUTPUT_LAT=${TEST_OUTPUT}-latency.json
+OUTPUT_READ_IOPS=${TEST_OUTPUT}-read-iops.json
+OUTPUT_WRITE_IOPS=${TEST_OUTPUT}-write-iops.json
+OUTPUT_READ_BW=${TEST_OUTPUT}-read-bandwidth.json
+OUTPUT_WRITE_BW=${TEST_OUTPUT}-write-bandwidth.json
+OUTPUT_READ_LAT=${TEST_OUTPUT}-read-latency.json
+OUTPUT_WRITE_LAT=${TEST_OUTPUT}-write-latency.json
 
 keep_running="true"
 while [ "$keep_running" == "true" ]; do
     if [ -n "$IOPS_FIO" ]; then
-        echo Benchmarking $IOPS_FIO into $OUTPUT_IOPS
-        fio $CURRENT_DIR/$IOPS_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
-          --output-format=json --output=$TEMP $rate_iops_flag $rate_flag
-        mv $TEMP $OUTPUT_IOPS
+        echo Benchmarking random read iops
+        fio $CURRENT_DIR/$IOPS_FIO $IDLE_PROF --section=rand-read-iops --filename=$TEST_FILE --size=$TEST_SIZE --output-format=json --output=$OUTPUT_READ_IOPS $rate_iops_flag $rate_flag
+
+    	echo Benchmarking random write iops
+        fio $CURRENT_DIR/$IOPS_FIO $IDLE_PROF --section=rand-write-iops --filename=$TEST_FILE --size=$TEST_SIZE --output-format=json --output=$OUTPUT_WRITE_IOPS $rate_iops_flag $rate_flag
+
     fi
+
     if [ -n "$BW_FIO" ]; then
-        echo Benchmarking $BW_FIO into $OUTPUT_BW
-        fio $CURRENT_DIR/$BW_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
-          --output-format=json --output=$TEMP $rate_iops_flag $rate_flag
-        mv $TEMP $OUTPUT_BW
-    fi
+        echo Benchmarking sequential read bandwidth
+        fio $CURRENT_DIR/$BW_FIO $IDLE_PROF --section=seq-read-bandwidth --filename=$TEST_FILE --size=$TEST_SIZE --output-format=json --output=$OUTPUT_READ_BW $rate_iops_flag $rate_flag
+
+     	echo Benchmarking sequential write bandwidth
+        fio $CURRENT_DIR/$BW_FIO $IDLE_PROF --section=seq-write-bandwidth --filename=$TEST_FILE --size=$TEST_SIZE --output-format=json --output=$OUTPUT_WRITE_BW $rate_iops_flag $rate_flag
+   fi
+
     if [ -n "$LAT_FIO" ]; then
-        echo Benchmarking $LAT_FIO into $OUTPUT_LAT
-        fio $CURRENT_DIR/$LAT_FIO $IDLE_PROF --filename=$TEST_FILE --size=$TEST_SIZE \
-          --output-format=json --output=$TEMP $rate_iops_flag $rate_flag
-        mv $TEMP $OUTPUT_LAT
-    fi
+        echo Benchmarking random read latency
+        fio $CURRENT_DIR/$LAT_FIO $IDLE_PROF --section=rand-read-lat --filename=$TEST_FILE --size=$TEST_SIZE --output-format=json --output=$OUTPUT_READ_LAT $rate_iops_flag $rate_flag
+
+     	echo Benchmarking random write latency
+        fio $CURRENT_DIR/$LAT_FIO $IDLE_PROF --section=rand-write-lat --filename=$TEST_FILE --size=$TEST_SIZE --output-format=json --output=$OUTPUT_WRITE_LAT $rate_iops_flag $rate_flag
+   fi
 
     if [ -z "$SKIP_PARSE" ]; then
             $CURRENT_DIR/parse.sh $TEST_OUTPUT

@@ -1,19 +1,10 @@
 [rand-read-lat]
 readwrite=randread
-include lat-include.fio
+include latency-include.fio
 include quick-include.fio
 
 [rand-write-lat]
 readwrite=randwrite
-include lat-include.fio
+include latency-include.fio
 include quick-include.fio
 
-[seq-read-lat]
-readwrite=read
-include lat-include.fio
-include quick-include.fio
-
-[seq-write-lat]
-readwrite=write
-include lat-include.fio
-include quick-include.fio

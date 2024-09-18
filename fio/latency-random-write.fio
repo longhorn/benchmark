@@ -1,4 +1,4 @@
 [rand-write-lat]
 readwrite=randwrite
-include lat-include.fio
+include latency-include.fio
 include common-include.fio

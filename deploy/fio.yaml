@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: kbench
-        image: yasker/kbench:latest
+        image: longhornio/kbench:latest
         imagePullPolicy: Always
         env:
 #        - name: MODE

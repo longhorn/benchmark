@@ -1,4 +1,4 @@
-[rand-write-bw]
+[rand-write-bandwidth]
 readwrite=randwrite
-include bw-include.fio
+include bandwidth-include.fio
 include common-include.fio

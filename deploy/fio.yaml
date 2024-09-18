@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: kbench
-        image: yasker/kbench:latest
+        image: longhornio/kbench:latest
         imagePullPolicy: Always
         env:
 #        - name: MODE
@@ -33,27 +33,15 @@ spec:
 #        - name: MODE
 #          value: "random-read-iops"
 #        - name: MODE
-#          value: "sequential-read-iops"
-#        - name: MODE
-#          value: "random-read-bandwidth"
-#        - name: MODE
 #          value: "sequential-read-bandwidth"
 #        - name: MODE
 #          value: "random-read-latency"
 #        - name: MODE
-#          value: "sequential-read-latency"
-#        - name: MODE
 #          value: "random-write-iops"
-#        - name: MODE
-#          value: "sequential-write-iops"
-#        - name: MODE
-#          value: "random-write-bandwidth"
 #        - name: MODE
 #          value: "sequential-write-bandwidth"
 #        - name: MODE
 #          value: "random-write-latency"
-#        - name: MODE
-#          value: "sequential-write-latency"
         - name: MODE
           value: "full" # run all tests
         - name: FILE_NAME

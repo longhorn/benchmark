@@ -14,17 +14,14 @@ QUICK MODE: DISABLED
 =====================
 IOPS (Read/Write)
         Random:            98368 / 89200
-    Sequential:          108513 / 107636
   CPU Idleness:                      68%
 
 Bandwidth in KiB/sec (Read/Write)
-        Random:          542447 / 514487
     Sequential:          552052 / 521330
   CPU Idleness:                      99%
 
 Latency in ns (Read/Write)
         Random:            97222 / 44548
-    Sequential:            40483 / 44690
   CPU Idleness:                      72%
 ```
 
@@ -39,17 +36,14 @@ QUICK MODE: DISABLED
                              850-pro-raw   vs             850-pro-ext4    :              Change
 IOPS (Read/Write)
         Random:          96,735 / 89,565   vs          98,135 / 88,990    :      1.45% / -0.64%
-    Sequential:        107,729 / 107,352   vs        110,843 / 107,805    :       2.89% / 0.42%
   CPU Idleness:                      68%   vs                      66%    :                 -2%
 
 Bandwidth in KiB/sec (Read/Write)
-        Random:        549,521 / 519,141   vs        549,610 / 511,755    :      0.02% / -1.42%
     Sequential:        551,825 / 522,936   vs        552,337 / 520,364    :      0.09% / -0.49%
   CPU Idleness:                      98%   vs                      98%    :                  0%
 
 Latency in ns (Read/Write)
         Random:          82,899 / 44,437   vs         114,331 / 45,104    :      37.92% / 1.50%
-    Sequential:          40,335 / 44,767   vs          41,741 / 45,271    :       3.49% / 1.13%
   CPU Idleness:                      72%   vs                      73%    :                  1%
 ```
 

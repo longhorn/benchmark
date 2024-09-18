@@ -109,7 +109,7 @@ By default:
 Step to deploy:
 1. One line to start benchmarking your default storage class:
     ```
-    kubectl apply -f https://raw.githubusercontent.com/yasker/kbench/main/deploy/fio.yaml
+    kubectl apply -f https://raw.githubusercontent.com/longhorn/kbench/main/deploy/fio.yaml
     ```
 1. Observe the Result:
     ```
@@ -117,18 +117,18 @@ Step to deploy:
     ```
 1. Cleanup:
     ```
-    kubectl delete -f https://raw.githubusercontent.com/yasker/kbench/main/deploy/fio.yaml
+    kubectl delete -f https://raw.githubusercontent.com/longhorn/kbench/main/deploy/fio.yaml
     ```
 
 Note: a single benchmark for FIO will take about 6 minutes to finish.
 
-See [./deploy/fio.yaml](https://github.com/yasker/kbench/blob/main/deploy/fio.yaml) for available options.
+See [./deploy/fio.yaml](https://github.com/longhorn/kbench/blob/main/deploy/fio.yaml) for available options.
 
 #### Deploy Comparison Benchmark in Kubernetes cluster
 
 1. Get a local copy of `fio-cmp.yaml`
     ```
-    wget https://raw.githubusercontent.com/yasker/kbench/main/deploy/fio-cmp.yaml
+    wget https://raw.githubusercontent.com/longhorn/kbench/main/deploy/fio-cmp.yaml
     ```
 1. Set the storage class for each volume you want to compare.
     * By default, it's `local-path` vs `longhorn`.
@@ -153,16 +153,16 @@ See [./deploy/fio.yaml](https://github.com/yasker/kbench/blob/main/deploy/fio.ya
 
 Note: a comparison benchmark for FIO will take about 12 minutes to finish.
 
-See [./deploy/fio-cmp.yaml](https://github.com/yasker/kbench/blob/main/deploy/fio-cmp.yaml) for available options.
+See [./deploy/fio-cmp.yaml](https://github.com/longhorn/kbench/blob/main/deploy/fio-cmp.yaml) for available options.
 
 #### Run Single Volume Benchmark as Container Locally
 
 ```
-docker run -v /volume yasker/kbench:latest /volume/test.img
+docker run -v /volume longhornio/kbench:latest /volume/test.img
 ```
 e.g.
 ```
-docker run -e "SIZE=100M" -v /volume yasker/kbench:latest /volume/test.img
+docker run -e "SIZE=100M" -v /volume longhornio/kbench:latest /volume/test.img
 ```
 
 #### Run Single Volume Benchmark as a Binary Locally

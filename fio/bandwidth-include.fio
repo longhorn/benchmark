@@ -1,0 +1,3 @@
+bs=128K
+iodepth=16
+numjobs=4

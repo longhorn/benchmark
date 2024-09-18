@@ -1,6 +1,12 @@
-FROM ubuntu:20.04
+FROM registry.suse.com/bci/bci-base:15.6
 
-RUN apt update && apt install -y fio bash jq
+RUN zypper -n ref && zypper update -y
+
+
+RUN zypper -n addrepo --refresh https://download.opensuse.org/repositories/benchmark/SLE_15_SP5/benchmark.repo && \
+    zypper --gpg-auto-import-keys ref
+
+RUN zypper -n install jq fio procps
 
 ADD ./fio/ /fio/
 ADD ./bin/metric-exporter /usr/local/sbin/

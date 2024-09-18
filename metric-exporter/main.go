@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/yasker/kbench/metric-exporter/types"
+	"github.com/longhorn/kbench/metric-exporter/types"
 	"net/http"
 	"os"
 	"os/signal"
@@ -11,8 +11,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 
-	"github.com/yasker/kbench/metric-exporter/metrics"
-	"github.com/yasker/kbench/metric-exporter/registry"
+	"github.com/longhorn/kbench/metric-exporter/metrics"
+	"github.com/longhorn/kbench/metric-exporter/registry"
 )
 
 const (

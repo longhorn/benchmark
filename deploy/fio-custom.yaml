@@ -1,0 +1,277 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: kbench-pvc
+spec:
+  volumeMode: Filesystem
+  #volumeMode: Block
+  #storageClassName: longhorn  # replace with your storage class
+  #storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 33Gi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kbench
+spec:
+  template:
+    metadata:
+      labels:
+        kbench: fio
+    spec:
+      containers:
+      - name: kbench
+        image: yasker/kbench:latest
+        imagePullPolicy: Always
+        env:
+#        - name: MODE
+#          value: "quick" # for debugging
+#        - name: MODE
+#          value: "random-read-iops"
+#        - name: MODE
+#          value: "sequential-read-iops"
+#        - name: MODE
+#          value: "random-read-bandwidth"
+#        - name: MODE
+#          value: "sequential-read-bandwidth"
+#        - name: MODE
+#          value: "random-read-latency"
+#        - name: MODE
+#          value: "sequential-read-latency"
+#        - name: MODE
+#          value: "random-write-iops"
+#        - name: MODE
+#          value: "sequential-write-iops"
+#        - name: MODE
+#          value: "random-write-bandwidth"
+#        - name: MODE
+#          value: "sequential-write-bandwidth"
+#        - name: MODE
+#          value: "random-write-latency"
+#        - name: MODE
+#          value: "sequential-write-latency"
+        - name: MODE
+          value: "full" # run all tests
+        - name: FILE_NAME
+          value: "/volume/test"
+        - name: SIZE
+          value: "30G" # must be 10% smaller than the PVC size due to filesystem also took space
+        - name: CPU_IDLE_PROF
+          value: "disabled" # must be "enabled" or "disabled"
+        volumeMounts:
+        - name: vol
+          mountPath: /volume/
+        - name: fio-custom-config
+          mountPath: /etc/fio-custom-config
+        #volumeDevices:
+        #- name: vol
+        #  devicePath: /volume/test
+      restartPolicy: Never
+      volumes:
+      - name: vol
+        persistentVolumeClaim:
+          claimName: kbench-pvc
+      - name: fio-custom-config
+        configMap:
+          name: fio-custom-config
+  backoffLimit: 0
+---
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fio-custom-config
+data:
+  bandwidth-quick.fio: |
+    [rand-read-bw]
+    readwrite=randread
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [rand-write-bw]
+    readwrite=randwrite
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [seq-read-bw]
+    readwrite=read
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [seq-write-bw]
+    readwrite=write
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+  bandwidth-random-read.fio: |
+    [rand-read-bw]
+    readwrite=randread
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  bandwidth-random-write.fio: |
+    [rand-write-bw]
+    readwrite=randwrite
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  bandwidth-sequential-read.fio: |
+    [seq-read-bw]
+    readwrite=read
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  bandwidth-sequential-write.fio: |
+    [seq-write-bw]
+    readwrite=write
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  bandwidth.fio: |
+    [rand-read-bw]
+    readwrite=randread
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [rand-write-bw]
+    readwrite=randwrite
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [seq-read-bw]
+    readwrite=read
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [seq-write-bw]
+    readwrite=write
+    include /etc/fio-custom-config/bw-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  bw-include.fio: |
+    bs=128k
+    iodepth=64
+  common-include.fio: |
+    stonewall=1
+    randrepeat=0
+    verify=0
+    ioengine=libaio
+    direct=1
+    time_based=1
+    ramp_time=5s
+    runtime=20s
+  iops-include.fio: |
+    bs=4K
+    iodepth=64
+  iops-quick.fio: |
+    [rand-read-iops]
+    readwrite=randread
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [rand-write-iops]
+    readwrite=randwrite
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [seq-read-iops]
+    readwrite=read
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [seq-write-iops]
+    readwrite=write
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+  iops-random-read.fio: |
+    [rand-read-iops]
+    readwrite=randread
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  iops-random-write.fio: |
+    [rand-write-iops]
+    readwrite=randwrite
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  iops-sequential-read.fio: |
+    [seq-read-iops]
+    readwrite=read
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  iops-sequential-write.fio: |
+    [seq-write-iops]
+    readwrite=write
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  iops.fio: |
+    [rand-read-iops]
+    readwrite=randread
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [rand-write-iops]
+    readwrite=randwrite
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [seq-read-iops]
+    readwrite=read
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [seq-write-iops]
+    readwrite=write
+    include /etc/fio-custom-config/iops-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  lat-include.fio: |
+    bs=4k
+    iodepth=1
+  latency-quick.fio: |
+    [rand-read-lat]
+    readwrite=randread
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [rand-write-lat]
+    readwrite=randwrite
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [seq-read-lat]
+    readwrite=read
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+    [seq-write-lat]
+    readwrite=write
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/quick-include.fio
+  latency-random-read.fio: |
+    [rand-read-lat]
+    readwrite=randread
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  latency-random-write.fio: |
+    [rand-write-lat]
+    readwrite=randwrite
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  latency-sequential-read.fio: |
+    [seq-read-lat]
+    readwrite=read
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  latency-sequential-write.fio: |
+    [seq-write-lat]
+    readwrite=write
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  latency.fio: |
+    [rand-read-lat]
+    readwrite=randread
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [rand-write-lat]
+    readwrite=randwrite
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [seq-read-lat]
+    readwrite=read
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
+    [seq-write-lat]
+    readwrite=write
+    include /etc/fio-custom-config/lat-include.fio
+    include /etc/fio-custom-config/common-include.fio
+  quick-include.fio: |
+    stonewall=1
+    randrepeat=0
+    verify=0
+    ioengine=libaio
+    direct=1
+    time_based=1
+    ramp_time=1s
+    runtime=5s

@@ -1,4 +1,4 @@
-module github.com/yasker/kbench/metric-exporter
+module github.com/longhorn/kbench/metric-exporter
 
 go 1.20
 

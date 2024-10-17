@@ -10,12 +10,8 @@ SUFFIX=""
 cd $(dirname $0)/..
 
 TAG=${TAG:-${VERSION}${SUFFIX}}
-REPO=${REPO:-yasker}
-
-if echo $TAG | grep -q dirty; then
-    TAG=dev
-fi
-
+REPO=${REPO:-longhornio}
 IMAGE=${REPO}/kbench:${TAG}
+
 docker build -t ${IMAGE} -f package/Dockerfile .
 echo Built ${IMAGE}

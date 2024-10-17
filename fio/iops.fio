@@ -7,13 +7,3 @@ include common-include.fio
 readwrite=randwrite
 include iops-include.fio
 include common-include.fio
-
-[seq-read-iops]
-readwrite=read
-include iops-include.fio
-include common-include.fio
-
-[seq-write-iops]
-readwrite=write
-include iops-include.fio
-include common-include.fio

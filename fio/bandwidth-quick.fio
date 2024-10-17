@@ -1,19 +1,9 @@
-[rand-read-bw]
-readwrite=randread
-include bw-include.fio
-include quick-include.fio
-
-[rand-write-bw]
-readwrite=randwrite
-include bw-include.fio
-include quick-include.fio
-
-[seq-read-bw]
+[seq-read-bandwidth]
 readwrite=read
-include bw-include.fio
+include bandwidth-include.fio
 include quick-include.fio
 
-[seq-write-bw]
+[seq-write-bandwidth]
 readwrite=write
-include bw-include.fio
+include bandwidth-include.fio
 include quick-include.fio

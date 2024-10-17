@@ -1,2 +1,4 @@
 bs=4K
-iodepth=64
+iodepth=128
+numjobs=8
+norandommap=1

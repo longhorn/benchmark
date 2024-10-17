@@ -11,8 +11,8 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/yasker/kbench/metric-exporter/registry"
-	"github.com/yasker/kbench/metric-exporter/types"
+	"github.com/longhorn/kbench/metric-exporter/registry"
+	"github.com/longhorn/kbench/metric-exporter/types"
 )
 
 const (

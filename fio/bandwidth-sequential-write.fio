@@ -1,4 +1,4 @@
-[seq-write-bw]
+[seq-write-bandwidth]
 readwrite=write
-include bw-include.fio
+include bandwidth-include.fio
 include common-include.fio
